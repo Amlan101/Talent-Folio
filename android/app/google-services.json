@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "170447288358",
+    "project_id": "talent-folio-ed6c1",
+    "storage_bucket": "talent-folio-ed6c1.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:170447288358:android:58fc1c2ba705387b130ee7",
+        "android_client_info": {
+          "package_name": "com.example.talentfolio"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAFTA-juuVPpdkER2syq-Ufys7CKkyZZgg"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

@@ -1,6 +1,19 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 
-void main() {
+import 'firebase_options.dart';
+
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  await Firebase.initializeApp(
+    options: DefaultFirebaseOptions.currentPlatform,
+  );
+  // Add a test document to Firestore
+  await FirebaseFirestore.instance.collection('test').add({
+    'message': 'Hello Firebase!',
+    'timestamp': DateTime.now(),
+  });
   runApp(const MyApp());
 }
 
@@ -9,6 +22,12 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold();
+    return MaterialApp(
+      title: 'Firebase Setup',
+      debugShowCheckedModeBanner: false,
+      home: Scaffold(
+        body: Center(child: Text('Firebase Test2 Successful!')),
+      ),
+    );
   }
 }
