@@ -1,6 +1,8 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
+import 'package:talentfolio/presentation/screens/home_screen.dart';
+import 'package:talentfolio/presentation/screens/login_screen.dart';
 
 import 'firebase_options.dart';
 
@@ -9,11 +11,6 @@ void main() async {
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
   );
-  // Add a test document to Firestore
-  await FirebaseFirestore.instance.collection('test').add({
-    'message': 'Hello Firebase!',
-    'timestamp': DateTime.now(),
-  });
   runApp(const MyApp());
 }
 
@@ -23,11 +20,28 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Firebase Setup',
       debugShowCheckedModeBanner: false,
-      home: Scaffold(
-        body: Center(child: Text('Firebase Test2 Successful!')),
-      ),
+      home: AuthChecker()
+    );
+  }
+}
+
+class AuthChecker extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return StreamBuilder<User?>(
+      stream: FirebaseAuth.instance.authStateChanges(),
+      builder: (context, snapshot) {
+        if (snapshot.connectionState == ConnectionState.active) {
+          final user = snapshot.data;
+          if (user == null) {
+            return LoginScreen();
+          } else {
+            return HomeScreen();
+          }
+        }
+        return CircularProgressIndicator();
+      },
     );
   }
 }
