@@ -37,7 +37,7 @@ class AuthChecker extends StatelessWidget {
           if (user == null) {
             return LoginScreen();
           } else {
-            return HomeScreen();
+            return HomeScreen(userName: 'Amlan',);
           }
         }
         return CircularProgressIndicator();
