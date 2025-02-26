@@ -22,40 +22,39 @@ class ProjectModel {
     required this.githubLink,
     required this.userId,
     required this.createdAt,
-    this.likesCount = 0,
-    this.commentsCount = 0,
+    required this.likesCount,
+    required this.commentsCount,
     required this.userName,
   });
 
+  factory ProjectModel.fromMap(Map<String, dynamic> map, String docId) {
+    return ProjectModel(
+      id: docId,
+      title: map['title'] ?? 'No Title',
+      description: map['description'] ?? 'No description',
+      tags: List<String>.from(map['tags'] ?? []),
+      imageUrl: map['imageUrl'] ?? '',
+      githubLink: map['githubUrl'] ?? '',
+      userId: map['userId'] ?? '',
+      createdAt: map['createdAt'] ?? Timestamp.now(),
+      likesCount: (map['likesCount'] is int) ? map['likesCount'] : int.tryParse(map['likesCount']?.toString() ?? '0') ?? 0,
+      commentsCount: (map['commentsCount'] is int) ? map['commentsCount'] : int.tryParse(map['commentsCount']?.toString() ?? '0') ?? 0,
+      userName: map['ownerName'] ?? 'Unknown User',
+    );
+  }
+
   Map<String, dynamic> toMap() {
     return {
-      'id': id,
       'title': title,
       'description': description,
       'tags': tags,
       'imageUrl': imageUrl,
-      'githubLink': githubLink,
+      'githubUrl': githubLink,
       'userId': userId,
       'createdAt': createdAt,
       'likesCount': likesCount,
       'commentsCount': commentsCount,
-      'userName': userName,
+      'ownerName': userName,
     };
-  }
-
-  factory ProjectModel.fromMap(Map<String, dynamic> map) {
-    return ProjectModel(
-      id: map['id'],
-      title: map['title'],
-      description: map['description'],
-      tags: List<String>.from(map['tags']),
-      imageUrl: map['imageUrl'],
-      githubLink: map['githubLink'],
-      userId: map['userId'],
-      createdAt: map['createdAt'],
-      likesCount: map['likesCount'] ?? 0,
-      commentsCount: map['commentsCount'] ?? 0,
-      userName: map['userName'] ?? 'Unknown User',
-    );
   }
 }
