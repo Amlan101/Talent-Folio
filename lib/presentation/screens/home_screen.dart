@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:talentfolio/presentation/screens/add_project_screen.dart';
 import 'package:talentfolio/presentation/screens/project_detail_screen.dart';
+
 import '../../data/services/firebase_firestore_service.dart';
 import '../../models/project_model.dart';
 import '../components/custom_widget.dart';
@@ -35,11 +37,10 @@ class _HomeScreenState extends State<HomeScreen> {
           fontSize: 20,
         ),
         actions: [
-          IconButton
-            (
-              icon: const Icon(Icons.person),
-              onPressed: () {} // TODO: Implement profile screen
-          )
+          IconButton(
+            icon: const Icon(Icons.person),
+            onPressed: () {}, // TODO: Implement profile screen
+          ),
         ],
       ),
       body: Padding(
@@ -69,14 +70,13 @@ class _HomeScreenState extends State<HomeScreen> {
                         project: projects[index],
                         onTap: () {
                           Navigator.push(
-                              context,
-                              MaterialPageRoute(
+                            context,
+                            MaterialPageRoute(
                               builder:
-                          (context) =>
-                              ProjectDetailsScreen(
-                                project: projects[index],
-                              ),
-                              ),
+                                  (context) => ProjectDetailsScreen(
+                                    project: projects[index],
+                                  ),
+                            ),
                           );
                         },
                       );
@@ -89,7 +89,12 @@ class _HomeScreenState extends State<HomeScreen> {
         ),
       ),
       floatingActionButton: FloatingActionButton(
-        onPressed: () {}, // TODO: Implement project creation
+        onPressed: () {
+          Navigator.push(
+            context,
+            MaterialPageRoute(builder: (context) => AddNewProjectScreen()),
+          );
+        },
         child: const Icon(Icons.add),
       ),
     );

@@ -1,7 +1,9 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 
 class UiHelper {
-  // Custom Image Widget
+
   static Widget customImage({
     required String img,
     BoxFit fit = BoxFit.contain,
@@ -16,7 +18,6 @@ class UiHelper {
     );
   }
 
-  // Custom Text Widget
   static Widget customText({
     required String text,
     required Color color,
@@ -41,7 +42,6 @@ class UiHelper {
     );
   }
 
-  // Custom Search Field
   static Widget customSearchField({
     required TextEditingController controller,
     String hintText = "Search...",
@@ -69,7 +69,6 @@ class UiHelper {
     );
   }
 
-  // Custom Button
   static Widget customButton({
     required VoidCallback onTapped,
     required String text,
@@ -104,7 +103,6 @@ class UiHelper {
     );
   }
 
-  // Custom Card Widget
   static Widget customCard({
     required Widget child,
     double elevation = 2.0,
@@ -118,10 +116,7 @@ class UiHelper {
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(borderRadius),
       ),
-      child: Padding(
-        padding: padding,
-        child: child,
-      ),
+      child: Padding(padding: padding, child: child),
     );
   }
 
@@ -137,10 +132,107 @@ class UiHelper {
       decoration: InputDecoration(
         hintText: hintText,
         prefixIcon: Icon(icon),
-        border: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(10),
+        border: OutlineInputBorder(borderRadius: BorderRadius.circular(10)),
+      ),
+    );
+  }
+
+  static Widget customImagePicker({
+    required Function() onTap,
+    required File? imageFile,
+    double height = 200,
+  }) {
+    return GestureDetector(
+      onTap: onTap,
+      child: Container(
+        height: height,
+        width: double.infinity,
+        decoration: BoxDecoration(
+          borderRadius: BorderRadius.circular(12),
+          border: Border.all(color: Colors.grey.shade300),
+        ),
+        child:
+            imageFile != null
+                ? ClipRRect(
+                  borderRadius: BorderRadius.circular(12),
+                  child: Image.file(imageFile, fit: BoxFit.cover),
+                )
+                : Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    const Icon(
+                      Icons.add_photo_alternate_outlined,
+                      size: 50,
+                      color: Colors.grey,
+                    ),
+                    const SizedBox(height: 8),
+                    UiHelper.customText(
+                      text: "Add Project Image",
+                      color: Colors.grey.shade600,
+                      fontWeight: FontWeight.w500,
+                      fontSize: 16,
+                    ),
+                  ],
+                ),
+      ),
+    );
+  }
+
+  static Widget customMultiLineHelper({
+    required TextEditingController controller,
+    required String hintText,
+    IconData icon = Icons.description,
+    int maxLines = 5,
+  }) {
+    return Container(
+      decoration: BoxDecoration(
+        borderRadius: BorderRadius.circular(10),
+        border: Border.all(color: Colors.grey),
+      ),
+      child: TextField(
+        controller: controller,
+        maxLines: maxLines,
+        decoration: InputDecoration(
+          hintText: hintText,
+          prefixIcon: Icon(icon),
+          border: InputBorder.none,
+          contentPadding: const EdgeInsets.symmetric(
+            vertical: 12,
+            horizontal: 8,
+          ),
         ),
       ),
+    );
+  }
+
+  static Widget customTagInput({
+    required TextEditingController controller,
+    required VoidCallback onAddPressed,
+    String hintText = "Add a tag",
+  }) {
+    return Row(
+      children: [
+        Expanded(
+          child: UiHelper.customTextField(
+            controller: controller,
+            hintText: hintText,
+            icon: Icons.tag,
+          ),
+        ),
+        const SizedBox(width: 8),
+        Container(
+          height: 48,
+          width: 48,
+          decoration: BoxDecoration(
+            color: Colors.green,
+            borderRadius: BorderRadius.circular(10),
+          ),
+          child: IconButton(
+            icon: const Icon(Icons.add, color: Colors.white),
+            onPressed: onAddPressed,
+          ),
+        ),
+      ],
     );
   }
 }
