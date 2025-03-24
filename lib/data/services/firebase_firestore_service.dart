@@ -1,5 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import '../../models/project_model.dart';
+import '../../models/user_model.dart';
 
 class FirebaseFirestoreService {
 
@@ -33,6 +34,26 @@ class FirebaseFirestoreService {
       });
     } catch (e) {
       throw Exception("Error adding project: $e");
+    }
+  }
+
+  /// Add new user to Firestore
+  Future<void> createUser(UserModel user) async {
+    try {
+      await _firestore.collection('users').doc(user.id).set(user.toJson());
+    } catch (e) {
+      throw Exception("Error creating user: $e");
+    }
+  }
+
+  /// Fetch user by ID
+  Future<UserModel?> getUserById(String userId) async {
+    try {
+      DocumentSnapshot doc = await _firestore.collection('users').doc(userId).get();
+      if (!doc.exists) return null;
+      return UserModel.fromJson(doc.data() as Map<String, dynamic>, doc.id);
+    } catch (e) {
+      throw Exception("Error fetching user: $e");
     }
   }
 }

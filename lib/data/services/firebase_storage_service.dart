@@ -20,4 +20,15 @@ class FirebaseStorageService {
       return null;
     }
   }
+
+  /// Uploads profile image and returns the download URL
+  Future<String> uploadProfileImage(String userId, File imageFile) async {
+    try {
+      final ref = _storage.ref().child('profile_images').child('$userId.jpg');
+      await ref.putFile(imageFile);
+      return await ref.getDownloadURL();
+    } catch (e) {
+      throw Exception("Failed to upload profile image: $e");
+    }
+  }
 }

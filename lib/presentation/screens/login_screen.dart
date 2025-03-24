@@ -1,5 +1,6 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:talentfolio/presentation/screens/signup_screen.dart';
 import '../../data/services/firebase_auth_service.dart';
 import '../components/custom_widget.dart';
 
@@ -166,7 +167,10 @@ class _LoginScreenState extends State<LoginScreen> {
                     ),
                     TextButton(
                       onPressed: () {
-                        Navigator.pushNamed(context, "/signup");
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(builder: (context) => const SignUpScreen()),
+                        );
                       },
                       child: Text(
                         "Sign Up",
