@@ -1,11 +1,13 @@
 import 'dart:io';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:talentfolio/data/services/firebase_storage_service.dart';
 
 import '../../data/services/firebase_firestore_service.dart';
 import '../../models/project_model.dart';
+import '../../models/user_model.dart';
 import '../components/custom_widget.dart';
 
 class AddNewProjectScreen extends StatefulWidget {
@@ -72,10 +74,27 @@ class _AddNewProjectScreenState extends State<AddNewProjectScreen> {
 
     try{
        String? imageUrl;
+       final user = FirebaseAuth.instance.currentUser;
+
+       if(user == null){
+         ScaffoldMessenger.of(context).showSnackBar(
+           const SnackBar(content: Text('User not logged in')),
+         );
+         return;
+       }
+
+       // Fetch user details from Firestore
+       UserModel? currentUser = await FirebaseFirestoreService().getUserById(user.uid);
+       if (currentUser == null) {
+         ScaffoldMessenger.of(context).showSnackBar(
+           const SnackBar(content: Text('Error fetching user details')),
+         );
+         return;
+       }
 
        // Upload image if selected
       if(_imageFile != null){
-        imageUrl = await FirebaseStorageService().uploadProjectImage(_imageFile!, 'user_id_here');
+        imageUrl = await FirebaseStorageService().uploadProjectImage(_imageFile!, user.uid);
       }
 
        // Create a project model
@@ -86,9 +105,9 @@ class _AddNewProjectScreenState extends State<AddNewProjectScreen> {
          tags: _tags,
          imageUrl: imageUrl ?? "",
          githubLink: _githubLinkController.text.trim(),
-         userId: "user_id_here",
+         userId: currentUser.id,
+         userName: currentUser.name,
          createdAt: Timestamp.now(),
-         userName: "Amlan",
          likesCount: 0,
          commentsCount: 0,
        );

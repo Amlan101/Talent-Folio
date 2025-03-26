@@ -39,7 +39,7 @@ class ProjectModel {
       createdAt: map['createdAt'] ?? Timestamp.now(),
       likesCount: (map['likesCount'] is int) ? map['likesCount'] : int.tryParse(map['likesCount']?.toString() ?? '0') ?? 0,
       commentsCount: (map['commentsCount'] is int) ? map['commentsCount'] : int.tryParse(map['commentsCount']?.toString() ?? '0') ?? 0,
-      userName: map['ownerName'] ?? 'Unknown User',
+      userName: map['userName'] ?? 'Unknown User',
     );
   }
 
@@ -54,7 +54,7 @@ class ProjectModel {
       'createdAt': createdAt,
       'likesCount': likesCount,
       'commentsCount': commentsCount,
-      'ownerName': userName,
+      'userName': userName,
     };
   }
 }
