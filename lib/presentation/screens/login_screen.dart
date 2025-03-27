@@ -2,7 +2,10 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:talentfolio/presentation/screens/signup_screen.dart';
 import '../../data/services/firebase_auth_service.dart';
+import '../../data/services/firebase_firestore_service.dart';
+import '../../models/user_model.dart';
 import '../components/custom_widget.dart';
+import 'home_screen.dart';
 
 class LoginScreen extends StatefulWidget {
   @override
@@ -10,6 +13,9 @@ class LoginScreen extends StatefulWidget {
 }
 
 class _LoginScreenState extends State<LoginScreen> {
+
+  final FirebaseFirestoreService _firestoreService = FirebaseFirestoreService();
+
   final TextEditingController emailController = TextEditingController();
   final TextEditingController passwordController = TextEditingController();
   final FirebaseAuthService _authService = FirebaseAuthService();
@@ -32,8 +38,14 @@ class _LoginScreenState extends State<LoginScreen> {
 
     try {
       User? user = await _authService.signIn(email, password);
+
       if (user != null) {
-        Navigator.pushReplacementNamed(context, "/home");
+        UserModel? userModel = await _firestoreService.getUserById(user.uid);
+
+        Navigator.push(
+          context,
+          MaterialPageRoute(builder: (context) => HomeScreen(userName: userModel?.name ?? "Unknown User",)),
+        );
       } else {
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(content: Text("Login failed. Please check your credentials.")),

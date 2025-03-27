@@ -3,7 +3,6 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 
 class UiHelper {
-
   static Widget customImage({
     required String img,
     BoxFit fit = BoxFit.contain,
@@ -230,6 +229,93 @@ class UiHelper {
           child: IconButton(
             icon: const Icon(Icons.add, color: Colors.white),
             onPressed: onAddPressed,
+          ),
+        ),
+      ],
+    );
+  }
+
+  static Widget customProfileAvatar({
+    required String imageUrl,
+    double radius = 60,
+    VoidCallback? onEditTap,
+  }) {
+    return Stack(
+      children: [
+        CircleAvatar(
+          radius: radius,
+          backgroundColor: Colors.grey[200],
+          backgroundImage: imageUrl.isNotEmpty ? NetworkImage(imageUrl) : null,
+          child:
+              imageUrl.isEmpty
+                  ? Icon(Icons.person, size: radius, color: Colors.grey[500])
+                  : null,
+        ),
+        if (onEditTap != null)
+          Positioned(
+            bottom: 0,
+            right: 0,
+            child: GestureDetector(
+              onTap: onEditTap,
+              child: Container(
+                padding: const EdgeInsets.all(4),
+                decoration: BoxDecoration(
+                  color: Colors.green,
+                  shape: BoxShape.circle,
+                  border: Border.all(color: Colors.white, width: 2),
+                ),
+                child: const Icon(Icons.edit, color: Colors.white, size: 20),
+              ),
+            ),
+          ),
+      ],
+    );
+  }
+
+  static Widget customSkillChips({
+    required List<String> skills,
+    Color chipColor = Colors.blue,
+    Color textColor = Colors.white,
+  }) {
+    return Wrap(
+      spacing: 8,
+      runSpacing: 8,
+      children: skills.map((skill) =>
+          Chip(
+            label: Text(
+              skill,
+              style: TextStyle(color: textColor),
+            ),
+            backgroundColor: chipColor.withOpacity(0.8),
+            materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
+          )
+      ).toList(),
+    );
+  }
+
+  static Widget customStatDisplay({
+    required String label,
+    required int value,
+    IconData? icon,
+    Color color = Colors.blue,
+  }) {
+    return Column(
+      children: [
+        if (icon != null)
+          Icon(icon, color: color, size: 24),
+        Text(
+          value.toString(),
+          style: TextStyle(
+            fontSize: 18,
+            fontWeight: FontWeight.bold,
+            color: color,
+          ),
+        ),
+        Text(
+          label,
+          style: TextStyle(
+            fontSize: 12,
+            color: Colors.grey[600],
           ),
         ),
       ],

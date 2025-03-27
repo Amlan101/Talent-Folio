@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:talentfolio/presentation/screens/add_project_screen.dart';
+import 'package:talentfolio/presentation/screens/profile_screen.dart';
 import 'package:talentfolio/presentation/screens/project_detail_screen.dart';
 
 import '../../data/services/firebase_firestore_service.dart';
@@ -39,7 +40,14 @@ class _HomeScreenState extends State<HomeScreen> {
         actions: [
           IconButton(
             icon: const Icon(Icons.person),
-            onPressed: () {}, // TODO: Implement profile screen
+            onPressed: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                    builder: (context) => ProfileScreen()
+                )
+              );
+            },
           ),
         ],
       ),

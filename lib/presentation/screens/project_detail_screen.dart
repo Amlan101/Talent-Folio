@@ -8,7 +8,7 @@ class ProjectDetailsScreen extends StatefulWidget {
   final ProjectModel project;
 
 
-  const ProjectDetailsScreen({Key? key, required this.project}) : super(key: key);
+  const ProjectDetailsScreen({super.key, required this.project});
 
   @override
   _ProjectDetailsScreenState createState() => _ProjectDetailsScreenState();

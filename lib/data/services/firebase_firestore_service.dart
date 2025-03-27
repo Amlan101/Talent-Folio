@@ -50,7 +50,11 @@ class FirebaseFirestoreService {
   Future<UserModel?> getUserById(String userId) async {
     try {
       DocumentSnapshot doc = await _firestore.collection('users').doc(userId).get();
-      if (!doc.exists) return null;
+      if (!doc.exists){
+        await Future.delayed(Duration(seconds: 1));
+        doc = await _firestore.collection('users').doc(userId).get();
+      }
+      if(!doc.exists) return null;
       return UserModel.fromJson(doc.data() as Map<String, dynamic>, doc.id);
     } catch (e) {
       throw Exception("Error fetching user: $e");

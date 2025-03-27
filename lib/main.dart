@@ -44,7 +44,7 @@ class AuthChecker extends StatelessWidget {
                 } else if (userSnapshot.hasError || userSnapshot.hasData == null) {
                   return HomeScreen(userName: "Unknown User");
                 } else {
-                  return HomeScreen(userName: userSnapshot.data!.name);
+                  return HomeScreen(userName: userSnapshot.data?.name ?? "Unknown User");
                 }
               },
             );
