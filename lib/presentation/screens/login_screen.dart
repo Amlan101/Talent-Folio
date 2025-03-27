@@ -38,7 +38,6 @@ class _LoginScreenState extends State<LoginScreen> {
 
     try {
       User? user = await _authService.signIn(email, password);
-
       if (user != null) {
         UserModel? userModel = await _firestoreService.getUserById(user.uid);
 

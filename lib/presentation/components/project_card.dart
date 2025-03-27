@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-
 import '../../models/project_model.dart';
+import 'package:timeago/timeago.dart' as timeago;
 
 class ProjectCard extends StatelessWidget {
   final ProjectModel project;
@@ -119,6 +119,17 @@ class ProjectCard extends StatelessWidget {
                     ).toList(),
                   ),
                   SizedBox(height: 16),
+
+                  /// Timestamp
+                  Text(
+                    timeago.format(project.createdAt.toDate()),
+                    style: TextStyle(
+                      fontSize: 12,
+                      color: Colors.grey[500],
+                    ),
+                  ),
+
+                  SizedBox(height: 12),
 
                   /// Creator and Metrics Row
                   Row(
